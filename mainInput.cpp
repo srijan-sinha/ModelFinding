@@ -1,35 +1,40 @@
 #include <bits/stdc++.h>
 
-#include "Wrapper.h"
+#include "InWrapper.h"
 
 using namespace std;
 
 int main (int argc, char** argv) {
 
-    string inFile = "";
-    string outFile = "";
-    if(argc == 3) {
-    	inFile = argv[1];
-    	outFile = argv[2];
-    }
-    else {
+	string inFileGraph = "";
+	string outFileSAT = "";
+	string test = "";
+
+	if(argc == 2) {
+		test = argv[1];
+	}
+	else {
 		cout << "Usage: ./cppfile InputFile\n";
 		return 1;
 	}
 
-	ifstream inStream;
-	inStream.open(inFile);
+	inFileGraph = test + ".graph";
+	outFileSAT = test + ".satinput";
 
-	Wrapper wrapInput = new Wrapper();
-	wrapInput.readInput(inStream);
+	ifstream inStream;
+	inStream.open(inFileGraph);
+
+	InWrapper* wrapInput = new InWrapper();
+	wrapInput->readInputGraph(inStream);
 
 	inStream.close();
 
 	ofstream outStream;
-	outStream.open(outFile);
+	outStream.open(outFileSAT);
 
-	wrapInput.makeClauses();
-	wrapInput.generateInputSAT(outStream);
+	wrapInput->makeClauses();
+	wrapInput->generateInputSAT(outStream);
 
 	outStream.close();
+	
 }

@@ -54,4 +54,6 @@ class Graph {
 		 */
 		void addEdge(int n1, int n2);
 
-}
+};
+
+#endif

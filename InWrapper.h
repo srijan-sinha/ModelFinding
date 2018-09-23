@@ -1,5 +1,5 @@
-#ifndef WRAPPER_H
-#define WRAPPER_H
+#ifndef INWRAPPER_H
+#define INWRAPPER_H
 
 #include <bits/stdc++.h>
 #include <string.h>
@@ -11,7 +11,7 @@ using namespace std;
 
 #include "Graph.h"
 
-class Wrapper {
+class InWrapper {
 	
 	private:
 
@@ -20,28 +20,20 @@ class Wrapper {
 		int numCalls;
 		int numMafiaGroups;
 		vector < vector<int> > clauses;
-		bool satisfiability;
-		int ** variableMatrix;
 
 	public:
 
 		/**
 		 * An empty constructor.
 		 */
-		Wrapper();
-
-
-		/**
-		 * Initializes an empty variable matrix with no edges.
-		 */
-		void initVariableMatrix();
+		InWrapper();
 
 
 		/**
 		 * Read input from file and create the graph.
 		 * @param file is the file from which the graph input is to be read.
 		 */
-		void readInput(ifstream file);
+		void readInputGraph(ifstream file);
 
 
 		/**
@@ -49,20 +41,6 @@ class Wrapper {
 		 * @param file is the file in which the CNF formula is to be written.
 		 */
 		void generateInputSAT(ofstream file);
-
-
-		/**
-		 * Read the output file of miniSAT and translate back to the original problem.
-		 * @param file is the file from which the miniSAT solution is to be read.
-		 */
-		void readOutputSAT(ifstream file);
-
-
-		/**
-		 * Generate the final output for the input problem
-		 * @param file is the file in which the final subgraphs are to be written.
-		 */
-		void generateOutput(ofstream file);
 		
 
 		/**
@@ -130,12 +108,6 @@ class Wrapper {
 		 */
 		int personNum (int literal);
 
+};
 
-		/**
-		 * Converts a literal number to the corresponding mafia number.
-		 * @param literal is the literal number.
-		 * @return the mafia number for the literal.
-		 */
-		int mafiaNum (int literal);
-
-}
+#endif
