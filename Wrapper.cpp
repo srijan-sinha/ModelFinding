@@ -114,6 +114,14 @@ void Wrapper::generateOutput (ofstream file) {
 
 }
 
+void Wrapper::makeClauses () {
+
+	nonEmptyMafiaGroups();
+	allPersonAssigned();
+	allPairCreate();
+
+}
+
 void Wrapper::nonEmptyMafiaGroups () {
 
 	for(int i = 1; i <= numMafiaGroups; i++) {

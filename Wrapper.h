@@ -66,6 +66,11 @@ class Wrapper {
 		
 
 		/**
+		 * Makes all the required clauses.
+		 */
+		void makeClauses();
+
+		/**
 		 * Adds clauses to check if every Mafia group has atleast one person.
 		 */
 		void nonEmptyMafiaGroups();
