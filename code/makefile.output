@@ -1,0 +1,19 @@
+IDIR = ./include
+CC = g++
+CFLAGS = -I$(IDIR) -std=c++11
+
+ODIR = ./build
+SDIR = ./src
+EDIR = ./bin
+
+_DEPS = OutWrapper.h Graph.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ = OutWrapper.o Graph.o mainOutput.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(EDIR)/mainOutput: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
