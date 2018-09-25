@@ -9,10 +9,10 @@ You are an investigative agency working on uncovering the hidden connections bet
 * People don't directly call anyone outside their agency.
 * No agency is a strict subsidiary of another agency.
 
-##Input Format
+## Input Format
 The first line has three numbers: number of vertices in G, number of edges in G and K. Nodes are represented by positive integers starting from 1. Each subsequent line represents an edge between two nodes.
 
-##Output Format
+## Output Format
 Each subgraph will be prefaced with a #i |G<sub>i</sub>| indicating that it is the i<sup>th</sup> subgraph of number of vertices |G<sub>i</sub>|. Post that, mention the vertices in one line.
 
 ## Installation
@@ -31,7 +31,6 @@ Each subgraph will be prefaced with a #i |G<sub>i</sub>| indicating that it is t
 ./compile.sh
 ./run.sh testfile
 ./output.sh testfile
-
 ```
 The above commands do the following actions:
 * Delete any output files previously created by `testfile.graph` as input.
