@@ -9,6 +9,8 @@ void InWrapper::readInputGraph (istream& file) {
 	file >> numPeople >> numCalls >> numMafiaGroups;
 	file.ignore();
 
+	dummyLiteralNum = (numPeople * numMafiaGroups) + 1;
+
 	int person1 = 0;
 	int person2 = 0;
 
@@ -23,7 +25,7 @@ void InWrapper::readInputGraph (istream& file) {
 
 void InWrapper::generateInputSAT (ostream& file) {
 	
-	file << "p cnf " << numPeople * numMafiaGroups << " " << clauses.size() << endl;
+	file << "p cnf " << dummyLiteralNum - 1 << " " << clauses.size() << endl;
 	for(int i = 0; i < clauses.size(); i++) {
 		for(int j = 0; j < clauses.at(i).size(); j++) {
 			file << clauses.at(i).at(j) << " ";
@@ -36,11 +38,13 @@ void InWrapper::generateInputSAT (ostream& file) {
 void InWrapper::makeClauses () {
 
 	nonEmptyMafiaGroups();
-	cout << "EmptyMafiaGroups done." << endl;
+		cout << "EmptyMafiaGroups done." << endl;
 	allPersonAssigned();
-	cout << "allPersonsAssigned done." << endl;
+		cout << "allPersonsAssigned done." << endl;
 	allPairCreate();
-	cout << "allPairCreate done." << endl;
+		cout << "allPairCreate done." << endl;
+	subGroupCheck();
+		cout<< "subGroupCheck done." << endl;
 
 }
 
@@ -97,33 +101,95 @@ void InWrapper::allPairCreate () {
 
 }
 
-void InWrapper::callMade (int p1, int p2) {
-	
-	vector<int> clause;
-	recursiveClause(p1, p2, 1, clause);
+void InWrapper::subGroupCheck () {
+
+	int varNum = 0;
+
+	for(int i = 1; i <= numMafiaGroups; i++) {
+		for(int j = i+1; j <= numMafiaGroups; j++) {
+
+			vector< vector<int> > clausesDNF;
+
+			for(int k = 1; k <= numPeople; k++) {
+
+				vector<int> clause;
+				varNum = literalNumGenerator(k, i);
+					clause.push_back(varNum);
+				varNum = literalNumGenerator(k, j);
+					clause.push_back(-1 * varNum);
+				clausesDNF.push_back(clause);
+
+			}
+
+			changeToCNF(clausesDNF);
+			clausesDNF.clear();
+
+			for(int k = 1; k <= numPeople; k++) {
+
+				vector<int> clause;
+
+				varNum = literalNumGenerator(k, j);
+					clause.push_back(varNum);
+				varNum = literalNumGenerator(k, i);
+					clause.push_back(-1 * varNum);
+				
+				clausesDNF.push_back(clause);
+
+			}
+
+			changeToCNF(clausesDNF);
+
+		}
+	}
 
 }
 
-void InWrapper::recursiveClause (int p1, int p2, int mafiaGroupNum, vector<int> &clause) {
+void InWrapper::callMade (int p1, int p2) {
 	
-	int varNum1 = literalNumGenerator(p1, mafiaGroupNum);
-	int varNum2 = literalNumGenerator(p2, mafiaGroupNum);
+	vector< vector<int> > clausesDNF;
+	int varNum = 0;
 
-	if(mafiaGroupNum == numMafiaGroups) {
-		clause.push_back(varNum1);
-		clauses.push_back(clause);
-		clause.pop_back();
-		clause.push_back(varNum2);
-		clauses.push_back(clause);
-		clause.pop_back();
+	for(int i = 1; i <= numMafiaGroups; i++) {
+
+		vector<int> clause;
+
+		varNum = literalNumGenerator(p1, i);
+			clause.push_back(varNum);
+		varNum = literalNumGenerator(p2, i);
+			clause.push_back(varNum);
+		
+		clausesDNF.push_back(clause);
 	}
-	else {
-		clause.push_back(varNum1);
-		recursiveClause(p1, p2, mafiaGroupNum + 1, clause);
-		clause.pop_back();
-		clause.push_back(varNum2);
-		recursiveClause(p1, p2, mafiaGroupNum + 1, clause);
-		clause.pop_back();
+
+	changeToCNF(clausesDNF);
+
+}
+
+void InWrapper::changeToCNF (vector< vector<int> > clausesDNF) {
+
+	int size = clausesDNF.size();
+	int tempDummyLiteral = dummyLiteralNum;
+
+	vector<int> clause;
+	for(int i = 0; i < size; i++) {
+		clause.push_back(tempDummyLiteral);
+		tempDummyLiteral++;
+	}
+	clauses.push_back(clause);
+
+	vector<int> clauseDNF;
+	for(int i = 0; i < clausesDNF.size(); i++) {
+
+		clauseDNF = clausesDNF.at(i);
+		vector<int> subClause1, subClause2, subClause3;
+
+		subClause1.push_back(clauseDNF.at(0)); subClause1.push_back(-1 * dummyLiteralNum);
+		subClause2.push_back(-1 * clauseDNF.at(0)); subClause2.push_back(-1 * clauseDNF.at(1)); subClause2.push_back(dummyLiteralNum);
+		subClause3.push_back(-1 * clauseDNF.at(0)); subClause3.push_back(clauseDNF.at(1)); subClause3.push_back(-1 * dummyLiteralNum);
+	
+		clauses.push_back(subClause1); clauses.push_back(subClause2); clauses.push_back(subClause3);
+		dummyLiteralNum++;
+
 	}
 
 }

@@ -20,6 +20,7 @@ class InWrapper {
 		int numCalls;
 		int numMafiaGroups;
 		vector < vector<int> > clauses;
+		int dummyLiteralNum;
 
 	public:
 
@@ -67,6 +68,12 @@ class InWrapper {
 
 
 		/**
+		 * Checks if one mafia group is subsisdiary of another.
+		 */
+		void subGroupCheck();
+
+
+		/**
 		 * Adds the clause when two people have called each other.
 		 * @param p1 is the first person.
 		 * @param p2 is the second person.
@@ -75,13 +82,10 @@ class InWrapper {
 
 
 		/**
-		 * Recursively adds all variations of a clause to clause list.
-		 * @param p1 is the first person.
-		 * @param p2 is the second person.
-		 * @param mafiaGroupNum is the depth of recursion.
-		 * @param clause is the clause which is modified multiple times.
+		 *	Takes clauses in DNF form, converts them to CNF and adds to the cluse list.
+		 * @param clausesDNF is a vector of clauses where literals of each vectors are connected by '&&' and the clauses are connected by '||'.
 		 */
-		void recursiveClause (int p1, int p2, int mafiaGroupNum, vector<int> &clause);
+		void changeToCNF(vector< vector<int> > clausesDNF);
 
 
 		/**

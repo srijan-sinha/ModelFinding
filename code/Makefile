@@ -11,7 +11,7 @@ output:
 .PHONY: cleanBuild
 
 cleanBuild:
-	rm -f $(ODIR)/*.o $(EDIR)/*
+	rm -f $(ODIR)/*.o $(EDIR)/mainInput $(EDIR)/mainOutput
 
 .PHONY: cleanOutput
 
