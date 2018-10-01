@@ -73,9 +73,15 @@ void OutWrapper::generateOutput (ostream& file) {
 
 			file << "#" << i+1 << " " << graphSize << endl;
 
+			int count = 0;
 			for(int j = 0; j < numPeople; j++) {
-				if(variableMatrix[j][i] == 1)
-					file << j+1 << " ";
+				if(variableMatrix[j][i] == 1) {
+					count++;
+					if(count != 1)
+						file << " " << j+1;
+					else
+						file << j+1;
+				}
 			}
 
 			file << endl;

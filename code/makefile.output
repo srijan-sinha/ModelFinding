@@ -13,7 +13,7 @@ _OBJ = OutWrapper.o Graph.o mainOutput.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -O3 -c -o $@ $< $(CFLAGS)
 
 $(EDIR)/mainOutput: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -O3 -o $@ $^ $(CFLAGS)

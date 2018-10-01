@@ -59,10 +59,10 @@ void InWrapper::nonEmptyMafiaGroups () {
 			clause.push_back(varNum);
 		}
 
-		for(int i = 0; i < clause.size(); i++) {
-			cout << clause.at(i) << " ";
-		}
-		cout << endl;
+		// for(int i = 0; i < clause.size(); i++) {
+			// cout << clause.at(i) << " ";
+		// }
+		// cout << endl;
 
 		clauses.push_back(clause);
 
